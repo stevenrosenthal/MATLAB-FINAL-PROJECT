@@ -31,3 +31,36 @@ for boardCol = 0:1:3
 end
 %% Part 2
 direction = input('Enter direction: ','s');
+matrix = board;
+if direction(1) == 'l' || 'r'
+    for board_Row = 1:1:4
+        for board_Col = 1:1:4
+        if direction(1) == 'l'
+            if length( find( matrix(board_Row,:) == 0 )) > 0
+                sort( matrix(board_Row,:), 'descend');
+            end
+            
+            
+            
+            
+            if board(board_Row,board_Col) == 0 && board(board_Col) ~= 4
+                board(board_Row,board_Col+1) = board(board_Row,board_Col);
+                board(board_Row,board_Col+1) = 0;
+            end
+            if 
+            %tilesInRow = find(board(board_Row,:) ~= 0);
+            %numOfSpaces = length( find( board(board_Row,min(tilesInRow):-4:end) == 0 ));
+            %tilesInRow = tilesInRow - 4*(numberOfSpaces)
+    end
+
+
+    
+elseif direction(1) == 'r'
+
+end
+
+if direction(1) == 'u'
+    
+elseif direction(1) == 'd'
+  
+end
