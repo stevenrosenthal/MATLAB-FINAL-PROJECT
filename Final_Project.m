@@ -31,3 +31,90 @@ for boardCol = 0:1:3
 end
 %% Part 2
 direction = input('Enter direction: ','s');
+matrix = board;
+nonZeros = [];
+
+if direction(1) == 'l' %left
+
+for matrix_Row = 1:1:4
+  nonZeros = find( matrix(matrix_Row,:) ~= 0);
+  potentialSpaces = nonZeros - 1;
+  for ii = 1:1:length(nonZeros)
+    nonZerosAhead = length( find(nonZeros < nonZeros(ii)));
+    potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+    movedNonZeros = nonZeros - potentialSpaces;
+    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
+        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+        if length(nonZeros) ~= 4
+            matrix(matrix_Row,nonZeros(ii)) = 0;
+        end
+    end
+  end
+end
+for matrix_Row = 1:1:4
+    for matrix_Col = 1:1:3
+        if matrix(matrix_Row,matrix_Col) == matrix(matrix_Row,matrix_Col+1)
+            matrix(matrix_Row,matrix_Col) = 2*(matrix(matrix_Row,matrix_Col));
+            matrix(matrix_Row,matrix_Col+1) = 0;
+        end
+    end
+end
+for matrix_Row = 1:1:4
+  nonZeros = find( matrix(matrix_Row,:) ~= 0);
+  potentialSpaces = nonZeros - 1;
+  for ii = 1:1:length(nonZeros)
+    nonZerosAhead = length( find(nonZeros < nonZeros(ii)));
+    potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+    movedNonZeros = nonZeros - potentialSpaces;
+    matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
+        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+        if length(nonZeros) ~= 4
+            matrix(matrix_Row,nonZeros(ii)) = 0;
+        end
+    end
+  end
+end
+
+elseif direction(1) == 'r' %right
+    
+for matrix_Row = 1:1:4
+ nonZeros = find( matrix(matrix_Row,:) ~= 0);
+  potentialSpaces = 4 - nonZeros;
+  for ii = length(nonZeros):-1:1
+    nonZerosAhead = length( find(nonZeros > nonZeros(ii)));
+    potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+    movedNonZeros = nonZeros + potentialSpaces;
+    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
+        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+        if length(nonZeros) ~= 4
+            matrix(matrix_Row,nonZeros(ii)) = 0;
+        end
+    end
+  end
+end
+for matrix_Row = 1:1:4
+    for matrix_Col = 1:1:3
+        if matrix(matrix_Row,matrix_Col) == matrix(matrix_Row,matrix_Col+1)
+            matrix(matrix_Row,matrix_Col+1) = 2*(matrix(matrix_Row,matrix_Col));
+            matrix(matrix_Row,matrix_Col) = 0;
+        end
+    end
+end
+for matrix_Row = 1:1:4
+ nonZeros = find( matrix(matrix_Row,:) ~= 0);
+  potentialSpaces = 4 - nonZeros;
+  for ii = length(nonZeros):-1:1
+    nonZerosAhead = length( find(nonZeros > nonZeros(ii)));
+    potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+    movedNonZeros = nonZeros + potentialSpaces;
+    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
+        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+        if length(nonZeros) ~= 4
+            matrix(matrix_Row,nonZeros(ii)) = 0;
+        end
+    end
+  end
+end
+
+end
