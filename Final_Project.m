@@ -31,90 +31,170 @@ for boardCol = 0:1:3
 end
 %% Part 2
 direction = input('Enter direction: ','s');
-matrix = board;
 nonZeros = [];
-
+score = 0;
 if direction(1) == 'l' %left
-
-for matrix_Row = 1:1:4
-  nonZeros = find( matrix(matrix_Row,:) ~= 0);
+for board_Row = 1:1:4
+  nonZeros = find( board(board_Row,:) ~= 0);
   potentialSpaces = nonZeros - 1;
   for ii = 1:1:length(nonZeros)
     nonZerosAhead = length( find(nonZeros < nonZeros(ii)));
     potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
     movedNonZeros = nonZeros - potentialSpaces;
-    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
-        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+    if board(board_Row,movedNonZeros(ii)) ~= board(board_Row,nonZeros(ii))
+        board(board_Row,movedNonZeros(ii)) = board(board_Row,nonZeros(ii));
         if length(nonZeros) ~= 4
-            matrix(matrix_Row,nonZeros(ii)) = 0;
+            board(board_Row,nonZeros(ii)) = 0;
         end
     end
   end
 end
-for matrix_Row = 1:1:4
-    for matrix_Col = 1:1:3
-        if matrix(matrix_Row,matrix_Col) == matrix(matrix_Row,matrix_Col+1)
-            matrix(matrix_Row,matrix_Col) = 2*(matrix(matrix_Row,matrix_Col));
-            matrix(matrix_Row,matrix_Col+1) = 0;
+for board_Row = 1:1:4
+    for board_Col = 1:1:3
+        if board(board_Row,board_Col) == board(board_Row,board_Col+1)
+            board(board_Row,board_Col) = 2*(board(board_Row,board_Col));
+            score = score + board(board_Row,board_Col);
+            board(board_Row,board_Col+1) = 0;
         end
     end
 end
-for matrix_Row = 1:1:4
-  nonZeros = find( matrix(matrix_Row,:) ~= 0);
+for board_Row = 1:1:4
+  nonZeros = find( board(board_Row,:) ~= 0);
   potentialSpaces = nonZeros - 1;
   for ii = 1:1:length(nonZeros)
     nonZerosAhead = length( find(nonZeros < nonZeros(ii)));
     potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
     movedNonZeros = nonZeros - potentialSpaces;
-    matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
-    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
-        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+    board(board_Row,movedNonZeros(ii)) = board(board_Row,nonZeros(ii));
+    if board(board_Row,movedNonZeros(ii)) ~= board(board_Row,nonZeros(ii))
+        board(board_Row,movedNonZeros(ii)) = board(board_Row,nonZeros(ii));
         if length(nonZeros) ~= 4
-            matrix(matrix_Row,nonZeros(ii)) = 0;
+            board(board_Row,nonZeros(ii)) = 0;
         end
     end
   end
 end
 
-elseif direction(1) == 'r' %right
+elseif direction(1) == 'r' %right    
+for board_Row = 1:1:4
+ nonZeros = find( board(board_Row,:) ~= 0);
+  potentialSpaces = 4 - nonZeros;
+  for ii = length(nonZeros):-1:1
+    nonZerosAhead = length( find(nonZeros > nonZeros(ii)));
+    potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+    movedNonZeros = nonZeros + potentialSpaces;
+    if board(board_Row,movedNonZeros(ii)) ~= board(board_Row,nonZeros(ii))
+        board(board_Row,movedNonZeros(ii)) = board(board_Row,nonZeros(ii));
+        if length(nonZeros) ~= 4
+            board(board_Row,nonZeros(ii)) = 0;
+        end
+    end
+  end
+end
+for board_Row = 1:1:4
+    for board_Col = 1:1:3
+        if board(board_Row,board_Col) == board(board_Row,board_Col+1)
+            board(board_Row,board_Col+1) = 2*(board(board_Row,board_Col));
+            score = score + board(board_Row,board_Col+1);
+            board(board_Row,board_Col) = 0;
+        end
+    end
+end
+for board_Row = 1:1:4
+ nonZeros = find( board(board_Row,:) ~= 0);
+  potentialSpaces = 4 - nonZeros;
+  for ii = length(nonZeros):-1:1
+    nonZerosAhead = length( find(nonZeros > nonZeros(ii)));
+    potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+    movedNonZeros = nonZeros + potentialSpaces;
+    if board(board_Row,movedNonZeros(ii)) ~= board(board_Row,nonZeros(ii))
+        board(board_Row,movedNonZeros(ii)) = board(board_Row,nonZeros(ii));
+        if length(nonZeros) ~= 4
+            board(board_Row,nonZeros(ii)) = 0;
+        end
+    end
+  end
+end
+
+elseif direction(1) == 'u' %up
+for board_Col = 1:1:4
+        nonZeros = find( board(:,board_Col) ~= 0);
+        potentialSpaces = nonZeros - 1;
+    for ii = 1:1:length(nonZeros)
+        nonZerosAhead = length( find(nonZeros < nonZeros(ii)));
+        potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+        movedNonZeros = nonZeros - potentialSpaces;
+        if board(movedNonZeros(ii),board_Col) ~= board(nonZeros(ii),board_Col)
+            board(movedNonZeros(ii),board_Col) = board(nonZeros(ii),board_Col);
+            if length(nonZeros) ~= 4
+                board(nonZeros(ii),board_Col) = 0;
+            end
+        end
+    end
+end
+for board_Col = 1:1:4
+        for board_Row = 1:1:3
+            if board(board_Row,board_Col) == board(board_Row+1,board_Col)
+                board(board_Row,board_Col) = 2*(board(board_Row,board_Col));
+                score = score + board(board_Row,board_Col);
+                board(board_Row+1,board_Col) = 0;
+            end
+        end
+end
+for board_Col = 1:1:4
+        nonZeros = find( board(:,board_Col) ~= 0);
+        potentialSpaces = nonZeros - 1;
+        for ii = 1:1:length(nonZeros)
+            nonZerosAhead = length( find(nonZeros < nonZeros(ii)));
+            potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
+            movedNonZeros = nonZeros - potentialSpaces;
+            if board(movedNonZeros(ii),board_Col) ~= board(nonZeros(ii),board_Col)
+                board(movedNonZeros(ii),board_Col) = board(nonZeros(ii),board_Col);
+                if length(nonZeros) ~= 4
+                    board(nonZeros(ii),board_Col) = 0;
+                end
+            end
+        end
+end
     
-for matrix_Row = 1:1:4
- nonZeros = find( matrix(matrix_Row,:) ~= 0);
+elseif direction(1) == 'd' %down
+for board_Col = 1:1:4
+ nonZeros = find( board(:,board_Col) ~= 0);
   potentialSpaces = 4 - nonZeros;
   for ii = length(nonZeros):-1:1
     nonZerosAhead = length( find(nonZeros > nonZeros(ii)));
     potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
     movedNonZeros = nonZeros + potentialSpaces;
-    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
-        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+    if board(movedNonZeros(ii),board_Col) ~= board(nonZeros(ii),board_Col)
+        board(movedNonZeros(ii),board_Col) = board(nonZeros(ii),board_Col);
         if length(nonZeros) ~= 4
-            matrix(matrix_Row,nonZeros(ii)) = 0;
+            board(nonZeros(ii),board_Col) = 0;
         end
     end
   end
 end
-for matrix_Row = 1:1:4
-    for matrix_Col = 1:1:3
-        if matrix(matrix_Row,matrix_Col) == matrix(matrix_Row,matrix_Col+1)
-            matrix(matrix_Row,matrix_Col+1) = 2*(matrix(matrix_Row,matrix_Col));
-            matrix(matrix_Row,matrix_Col) = 0;
+for board_Col = 1:1:4
+    for board_Row = 1:1:3
+        if board(board_Row,board_Col) == board(board_Row+1,board_Col)
+            board(board_Row+1,board_Col) = 2*(board(board_Row,board_Col));
+            score = score + board(board_Row,board_Col);
+            board(board_Row,board_Col) = 0;
         end
     end
 end
-for matrix_Row = 1:1:4
- nonZeros = find( matrix(matrix_Row,:) ~= 0);
+for board_Col = 1:1:4
+ nonZeros = find( board(:,board_Col) ~= 0);
   potentialSpaces = 4 - nonZeros;
   for ii = length(nonZeros):-1:1
     nonZerosAhead = length( find(nonZeros > nonZeros(ii)));
     potentialSpaces(ii)  = potentialSpaces(ii) - nonZerosAhead;
     movedNonZeros = nonZeros + potentialSpaces;
-    if matrix(matrix_Row,movedNonZeros(ii)) ~= matrix(matrix_Row,nonZeros(ii))
-        matrix(matrix_Row,movedNonZeros(ii)) = matrix(matrix_Row,nonZeros(ii));
+    if board(movedNonZeros(ii),board_Col) ~= board(nonZeros(ii),board_Col)
+        board(movedNonZeros(ii),board_Col) = board(nonZeros(ii),board_Col);
         if length(nonZeros) ~= 4
-            matrix(matrix_Row,nonZeros(ii)) = 0;
+            board(nonZeros(ii),board_Col) = 0;
         end
     end
   end
 end
-
 end
